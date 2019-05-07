@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    {% if title %}
+      <title>{{ title }} | ???</title>
+    {% else %}
+      <title>???</title>
+    {% endif %}
+  </head>
+
+  <body>
+    <header>
+    </header>
+
+    <main>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div id="flashed_messages">
+            <ul>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}
+      {% endblock %}
+      
+    </main>
+
+    <footer>
+      <a href="{{ url_for('login') }}">Sign In</a>
+    </footer>
+  </body>
+
+</html>
