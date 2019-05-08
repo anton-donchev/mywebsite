@@ -29,11 +29,14 @@
 
       {% block content %}
       {% endblock %}
-      
     </main>
 
     <footer>
-      <a href="{{ url_for('login') }}">Sign In</a>
+      {% if current_user.is_anonymous %}
+        <a href="{{ url_for('login') }}">Log In</a>
+      {% else %}
+        <a href="{{ url_for('logout') }}">Log Out</a>
+      {% endif %}
     </footer>
   </body>
 

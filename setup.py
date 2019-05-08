@@ -9,13 +9,14 @@ except ImportError:
 config = {
     "name":             "MyWebsite",
     "description":      "A flexible framework for creating simple personal websites.",
-    'author':           "Anton Donchev",
-    'url':              "",
-    'author_email':     'donchev.anton@gmail.com',
-    'version':          '0.0.1',
-    'install_requires': ['nose', 'dotenv', 'flask', 'flask-wtf'],
-    'packages':         ['website', 'tests', 'bin'],
-    'scripts':          [],
+    "author":           "Anton Donchev",
+    "url":              "",
+    "author_email":     "donchev.anton@gmail.com",
+    "version":          "0.0.1",
+    "install_requires": ["nose", "python-dotenv", "flask", "flask-wtf",
+                         "flask-sqlalchemy", "flask-migrate", "flask-login"],
+    "packages":         ["website", "tests", "bin"],
+    "scripts":          [],
 }
 
 setup(**config)
