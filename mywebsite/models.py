@@ -3,11 +3,12 @@
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 
-from mywebsite import db, login
+from mywebsite import db, login_manager
 
 
-@login.user_loader
+@login_manager.user_loader
 def load_user(id):
     return Admin.query.get(int(id))
 
@@ -17,6 +18,8 @@ class Admin(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    status = db.Column(db.String(32), index=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
         return f"<Admin {self.username}>"

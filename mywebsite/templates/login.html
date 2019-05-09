@@ -13,13 +13,13 @@
     <form action="" method="POST" novalidate>
       {{ login_form.hidden_tag() }}
       <p>
-        {{ login_form.username.label }}<br>
+        {{ login_form.user_or_mail.label }}<br>
 
-        {{ login_form.username(size=32) }}<br>
+        {{ login_form.user_or_mail(size=32) }}<br>
 
-        {% if login_form.username.errors %}
-          {% for error in login_form.username.errors %}
-            {{ error }}<br>
+        {% if login_form.user_or_mail.errors %}
+          {% for error in login_form.user_or_mail.errors %}
+            <span class="error">{{ error }}</span><br>
           {% endfor %}
         {% endif %}
       </p>
@@ -29,12 +29,12 @@
 
         {% if login_form.password.errors %}
           {% for error in login_form.password.errors %}
-            {{ error }}<br>
+            <span class="error">{{ error }}</span><br>
           {% endfor %}
         {% endif %}
       </p>
       <p>{{ login_form.remember_me() }} {{ login_form.remember_me.label }}</p>
-      <p>{{ login_form.submit() }}</p>
+      <p>{{ login_form.sign_in() }}</p>
     </form>
 
   </div>
