@@ -33,9 +33,9 @@
 
     <footer>
       {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Log In</a>
+        <a href="{{ url_for('.login') }}">Log In</a>
       {% else %}
-        <a href="{{ url_for('logout') }}">Log Out</a>
+        <a href="{{ url_for('.logout') }}">Log Out</a>
       {% endif %}
     </footer>
   </body>

@@ -10,7 +10,7 @@ rootdir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY") or "8~F07bo?0.');(P\w3kUk6N\hV?)C"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = True
+    # SQLALCHEMY_ECHO = True
 
     @staticmethod
     def init_app(app):
@@ -25,13 +25,14 @@ class DevelopmentConfig(Config):
 
 class TestsConfig(Config):
     TESTING = True
-    WTF_CSFR_ENABLED = False
+    SERVER_NAME = "127.0.0.1:5000"
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URL") or "sqlite://"
 
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
-        "sqlite:///" + os.path.join(rootdir, 'mywebsite_data.db')
+        "sqlite:///" + os.path.join(rootdir, 'mywebsite_data.sqlite')
 
 
 config = {
