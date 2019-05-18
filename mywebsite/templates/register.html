@@ -10,7 +10,7 @@
 
     <h1>Register</h1>
 
-    <form action="" method="POST">
+    <form action="{{ url_for('.register') }}" method="POST">
       {{ registration_form.hidden_tag() }}
       <p>
         {{ registration_form.username.label }}<br>

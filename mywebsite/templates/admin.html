@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  {% if current_user.is_authenticated %}
+
+    <span class="breadcrumb">
+      <a href="{{ url_for('.home') }}">Home</a> » Admin
+      <span>Admin: {{ current_user.username }}</span>
+    </span>
+
+    <div class="content">
+
+      <h1>Admin Panel</h1>
+
+      <div id="change_password_form">
+
+        <h2>Change Password</h2>
+
+        <form action="{{ url_for('.admin') }}" method="POST">
+          {{ change_password_form.hidden_tag() }}
+          <p>
+            {{ change_password_form.old_password.label }}<br>
+            {{ change_password_form.old_password(size=32) }}<br>
+
+            {% if change_password_form.old_password.errors %}
+              {% for error in change_password_form.old_password.errors %}
+                <span class="error">{{ error }}</span><br>
+              {% endfor %}
+            {% endif %}
+          </p>
+          <p>
+            {{ change_password_form.new_password.label }}<br>
+            {{ change_password_form.new_password(size=32) }}<br>
+
+            {% if change_password_form.new_password.errors %}
+              {% for error in change_password_form.new_password.errors %}
+                <span class="error">{{ error }}</span><br>
+              {% endfor %}
+            {% endif %}
+          </p>
+          <p>
+            {{ change_password_form.new_password2.label }}<br>
+            {{ change_password_form.new_password2(size=32) }}<br>
+
+            {% if change_password_form.new_password2.errors %}
+              {% for error in change_password_form.new_password2.errors %}
+                <span class="error">{{ error }}</span><br>
+              {% endfor %}
+            {% endif %}
+          </p>
+          <p>{{ change_password_form.change_password() }}</p>
+        </form>
+
+        </div>
+
+      <h2>Website admins</h2>
+
+        {% if admins %}
+
+          <table class="admins_table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Last seen</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for a in admins %}
+                <tr>
+                  <td>{{ a.username }}</td>
+                  <td>{{ a.email }}</td>
+                  <td>{{ a.status }}</td>
+                  <td>{{ a.timestamp }}</td>
+                  <td>
+                    <form action="{{ url_for('.admin') }}" method="POST">
+                      {% if current_user.username == a.username %}
+                        <button class="relax_button" type="submit"
+                            name="show_password_form" value="{{ a.id }}">
+                          Change password
+                        </button>
+                      {% elif a.status == "active" %}
+                        <button class="alert_button" type="submit"
+                            name="deactivate_admin" value="{{ a.id }}"
+                            onclick="return confirm('Remove admin rights of {{ a.username }}?')">
+                          Deactivate
+                        </button>
+                      {% elif a.status == "pending" %}
+                        <button class="relax_button" type="submit"
+                            name="reject_user" value="{{ a.id }}">
+                          Reject
+                        </button>
+                        <button class="alert_button" type="submit"
+                            name="accept_user" value="{{ a.id }}"
+                            onclick="return confirm('Grant admin rights to {{ a.username }}?')">
+                          Accept
+                        </button>
+                      {% elif a.status == "inactive" %}
+                        <button class="alert_button" type="submit"
+                            name="activate_admin" value="{{ a.id }}"
+                            onclick="return confirm('Grant admin rights to {{ a.username }}?')">
+                          Activate
+                        </button>
+                      {% endif %}
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        {% else %}
+
+          <p><span>No users with admin rights found.</span></p>
+
+        {% endif %}
+
+    </div>
+
+  {% else %}
+
+    <span class="breadcrumb">
+      <a href="{{ url_for('.home') }}">Home</a> » Admin
+    </span>
+
+    <div class="under_constr">Forbidden. Access denied.</div>
+
+    <p><a href="{{ url_for('.home') }}">Home</a></p>
+
+  {% endif %}
+
+{% endblock %}

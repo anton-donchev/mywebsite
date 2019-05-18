@@ -15,7 +15,7 @@ from flask_migrate import Migrate, upgrade
 app = create_app(os.getenv("FLASK_CONFIG") or "default")
 migrate = Migrate(app, db)
 
-from mywebsite import routes, models
+from mywebsite import routes, models, errors
 
 
 @app.shell_context_processor

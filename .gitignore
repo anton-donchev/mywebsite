@@ -5,6 +5,10 @@ __pycache__/
 
 # Databases
 *.db
+*.sqlite
+
+# Logs
+logs/
 
 # C extensions
 *.so

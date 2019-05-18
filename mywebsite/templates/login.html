@@ -10,7 +10,7 @@
 
     <h1>Sign In</h1>
 
-    <form action="" method="POST" novalidate>
+    <form action="{{ url_for('.login') }}" method="POST" novalidate>
       {{ login_form.hidden_tag() }}
       <p>
         {{ login_form.user_or_mail.label }}<br>

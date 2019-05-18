@@ -7,7 +7,7 @@ from config import config
 main_blueprint = Blueprint("main", __name__)
 db = SQLAlchemy()
 login_manager = LoginManager()
-login_manager.login_view = "login"
+login_manager.login_view = ".login"
 
 from mywebsite import routes
 

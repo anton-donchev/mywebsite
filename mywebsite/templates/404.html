@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <span class="breadcrumb">
+    Error 404
+  </span>
+
+  <div class="content">
+
+    <h1>Page not found.</h1>
+
+    <p><a href="{{ url_for('.home') }}">Home</a></p>
+
+  </div>
+
+{% endblock %}

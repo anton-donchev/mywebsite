@@ -15,7 +15,7 @@ class TestRoutes:
             print(f">>>> Testing routes: rule = {rule}, response = {response}.")
             if rule == "/static/<path:filename>":
                 assert_equal(response.status_code, 404)
-            elif rule == "/logout":
+            elif rule == "/logout" or rule == "/admin":
                 assert_equal(response.status_code, 302)
             else:
                 assert_equal(response.status_code, 200)
