@@ -4,7 +4,7 @@
 
   {% if current_user.is_anonymous %}
 
-    <span class="breadcrumb">
+    <span id="breadcrumb">
       Home
     </span>
 
@@ -16,7 +16,7 @@
 
   {% else %}
 
-    <span class="breadcrumb">
+    <span id="breadcrumb">
       Home
       <span>Admin: {{ current_user.username }}</span>
     </span>

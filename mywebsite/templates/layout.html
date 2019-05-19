@@ -3,40 +3,64 @@
 <html lang="en">
 
   <head>
+    <!-- NOTE: Get title of website and name of owner from initial setup. -->
     {% if title %}
       <title>{{ title }} | ???</title>
     {% else %}
       <title>???</title>
     {% endif %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The personal website of John Doe.">
+    <!-- NOTE: Keywords should be asked for on setup as well. -->
+    <meta name="keywords" content="personal website">
+    <!-- NOTE: The 'author' should be the owner of the website. -->
+    <meta name="author" content="John Doe">
+    <!-- NOTE The owner should be given the option to draw / upload favicon. -->
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" media="screen"
+      href="{{ url_for('static', filename='css/master.css') }}">
+    <link rel="stylesheet" type="text/css" media="screen"
+      href="{{ url_for('static', filename='css/admin_panel.css') }}">
   </head>
 
   <body>
     <header>
+      <div id="logo"></div>
+      <ul id="navigation">
+      </ul>
     </header>
 
     <main>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <div id="flashed_messages">
-            <ul>
-              {% for message in messages %}
-                <li>{{ message }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-      {% endwith %}
+      <div id="left_column"></div>
+      <div id="main_content">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div id="flashed_messages">
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endwith %}
 
-      {% block content %}
-      {% endblock %}
+        {% block content %}
+        {% endblock %}
+      </div>
+      <div id="right_column"></div>
     </main>
 
     <footer>
-      {% if current_user.is_anonymous %}
-        <a href="{{ url_for('.login') }}">Log In</a>
-      {% else %}
-        <a href="{{ url_for('.logout') }}">Log Out</a>
-      {% endif %}
+      <div id="log_in_button">
+        {% if current_user.is_anonymous %}
+          <a href="{{ url_for('.login') }}">Log In</a>
+        {% else %}
+          <a href="{{ url_for('.logout') }}">Log Out</a>
+        {% endif %}
+      </div>
     </footer>
   </body>
 

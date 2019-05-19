@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
+import os
 
 from flask import render_template, flash, redirect, url_for, request
-from flask import current_app
+from flask import current_app, send_from_directory
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from werkzeug.urls import url_parse
@@ -51,10 +52,14 @@ def login():
         current_app.logger.info(
             f"Admin '{current_user.username}' logged in."
             )
+        # WARNING: request.args does not work here for some reason.
         next_page = request.args.get("next")
-        if not next_page or url_parse(next_page).netloc != "":
-            next_page = url_for(".home")
-        return redirect(next_page)
+
+        if next_page and url_parse(next_page).netloc == "":
+            return redirect(next_page)
+        else:
+            return redirect(url_for(".home"))
+
     return render_template("login.html", title="Sign In", login_form=login_form)
 
 
@@ -102,14 +107,19 @@ def admin():
     get_admin = lambda admin_id: Admin.query.filter_by(id=admin_id).first()
     change_password_form = ChangePasswordForm()
 
+    if change_password_form.validate_on_submit():
+        current_app.logger.info(
+            f"Admin '{current_user.username}' requested a password change."
+            )
+        admin = Admin.query.filter_by(username=current_user.username).first()
+        admin.password = change_password_form.new_password.data
+        db.session.commit()
+        flash(f"Password changed for admin '{current_user.username}'.")
+        return redirect(url_for(".admin"))
+
     if request.method == "POST":
 
-        if change_password_form.validate_on_submit():
-            print(">>>> routes.py, admin(), change_password_form validated.")
-
-        if request.form.get("show_password_form"):
-            flash(f"Admin '{current_user.username}' requested password change.")
-        elif request.form.get("deactivate_admin"):
+        if request.form.get("deactivate_admin"):
             admin_id = request.form.get("deactivate_admin")
             admin = get_admin(admin_id)
             admin.status = "inactive"

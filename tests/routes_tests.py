@@ -12,7 +12,7 @@ class TestRoutes:
         rules = [str(r) for r in app.url_map.iter_rules()]
         for rule in rules:
             response = client.get(rule)
-            print(f">>>> Testing routes: rule = {rule}, response = {response}.")
+            print(f"Testing routes: rule = {rule}, response = {response}.")
             if rule == "/static/<path:filename>":
                 assert_equal(response.status_code, 404)
             elif rule == "/logout" or rule == "/admin":

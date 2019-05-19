@@ -1,0 +1,13 @@
+.admins_table {
+  width: 100%;
+}
+
+.admins_table th, .admins_table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 1pt 5pt;
+}
+
+#change_password_form {
+  display: none;
+}

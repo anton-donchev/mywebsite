@@ -4,7 +4,7 @@
 
   {% if current_user.is_authenticated %}
 
-    <span class="breadcrumb">
+    <span id="breadcrumb">
       <a href="{{ url_for('.home') }}">Home</a> » Admin
       <span>Admin: {{ current_user.username }}</span>
     </span>
@@ -50,6 +50,12 @@
             {% endif %}
           </p>
           <p>{{ change_password_form.change_password() }}</p>
+          <p>
+            <button class="alert_button" type="reset"
+                onclick="togglePasswordForm()">
+              Cancel
+            </button>
+          </p>
         </form>
 
         </div>
@@ -76,13 +82,16 @@
                   <td>{{ a.status }}</td>
                   <td>{{ a.timestamp }}</td>
                   <td>
+                    {% if current_user.username == a.username %}
+                      <button class="relax_button" id="change_password_button"
+                          type="button" name="show_password_form"
+                          value="{{ a.id }}" onclick="togglePasswordForm()">
+                        Change password
+                      </button>
+                    {% endif %}
+
                     <form action="{{ url_for('.admin') }}" method="POST">
-                      {% if current_user.username == a.username %}
-                        <button class="relax_button" type="submit"
-                            name="show_password_form" value="{{ a.id }}">
-                          Change password
-                        </button>
-                      {% elif a.status == "active" %}
+                      {% if a.status == "active" %}
                         <button class="alert_button" type="submit"
                             name="deactivate_admin" value="{{ a.id }}"
                             onclick="return confirm('Remove admin rights of {{ a.username }}?')">
@@ -112,6 +121,23 @@
             </tbody>
           </table>
 
+          <script>
+            function togglePasswordForm() {
+              var form = document.getElementById("change_password_form")
+              var button = document.getElementById("change_password_button")
+              if (form.style.display != "block") {
+                form.style.display = "block";
+              } else {
+                form.style.display = null;
+              }
+              if (button.style.display != "none") {
+                button.style.display = "none";
+              } else {
+                button.style.display = null;
+              }
+            }
+          </script>
+
         {% else %}
 
           <p><span>No users with admin rights found.</span></p>
@@ -122,7 +148,7 @@
 
   {% else %}
 
-    <span class="breadcrumb">
+    <span id="breadcrumb">
       <a href="{{ url_for('.home') }}">Home</a> » Admin
     </span>
 
